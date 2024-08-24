@@ -1,105 +1,60 @@
 #include<bits/stdc++.h>
 using namespace std;
-/*
-void merge(vector<int> &arr,int left,int mid,int right){
-int n1 = mid-left+1;
-int n2=right-mid;
-vector<int> vec1(n1),vec2(n2);
-for(int i=0;i<n1;i++)vec1[i]=arr[left+i];
-for(int j=0;j<n2;j++)vec2[j]=arr[mid+1+j];
-int i=0,j=0,k=left;
-while(i<n1 && j<n2){
-    if(vec1[i]<=vec2[j]){
-        arr[k]=vec1[i];
-        i++;
+
+void mergeo(vector<int> &arr,int low,int mid,int high){
+    int n1 =mid-low+1;
+    int n2 = high-mid;
+    vector<int> v1(n1);
+    vector<int> v2(n2);
+    for(int i=0;i<n1;i++){
+        v1[i]=arr[low+i];
     }
-    else{
-        arr[k]=vec2[j];
-        j++;
+    for(int i=0;i<n2;i++){
+        v2[i]=arr[mid+i+1];
     }
-    k++;
-}
-while(i<n1){
-    arr[k]=vec1[i];
-    i++;
-    k++;
-}
-while(j<n2){
-    arr[k]=vec2[j];
-    j++;
-    k++;
-}
-
-}
-void printVector(vector<int> &arr){
-    for(auto x:arr)cout<<x<<" ";
-
-}
-void mergeSort(vector<int> &arr,int low,int high){
-    if(low<high){
-        int mid = low+(high-low)/2;
-        mergeSort(arr,low,mid);
-        mergeSort(arr,mid+1,high);
-        merge(arr,low,mid,high);
-    }
-
-}*/
-
-
-
-void merge(vector<int> &arr,int left,int mid,int right){
-    int n1 = mid-left+1;
-    int n2=right-mid;
-    vector<int> vec1(n1),vec2(n2);
-    for(int i=0;i<n1;i++)vec1[i]=arr[left+i];
-    for(int j=0;j<n2;j++)vec2[j]=arr[mid+j+1];
-    int i=0,j=0,k=left;
-
+    int i=0,j=0,k=low;
     while(i<n1 && j<n2){
-        if(vec1[i]<vec2[j]){
-          arr[k]=vec1[i];                       //remember [0,1,2,3,4] low=0 mid=2 high=4 after part [0,1,2],[3,4]
-          i++;
+        if(v1[i]<v2[j]){
+            arr[k]=v1[i];
+            i++;
         }
         else{
-            arr[k]=vec2[j];
+            arr[k]=v2[j];
             j++;
         }
         k++;
     }
     while(i<n1){
-        arr[k]=vec1[i];
+        arr[k]=v1[i];
         i++;
         k++;
     }
     while(j<n2){
-        arr[k]=vec2[j];
+        arr[k]=v2[j];
         j++;
         k++;
     }
-
-
 }
-void printVector(vector<int> &arr){
-    for(auto x:arr)cout<<x<<" ";
-}
-void mergeSort(vector<int> &arr,int low,int high){
-    if(low<high){
-       int mid = low+(high-low)/2;
-       mergeSort(arr,low,mid);
-       mergeSort(arr,mid+1,high);
-       merge(arr,low,mid,high);
+void mergesort(vector<int> &arr,int low,int high){
+     if(low<high){
+     int mid = low+(high-low)/2;
+     mergesort(arr,low,mid);
+     mergesort(arr,mid+1,high);
+     mergeo(arr,low,mid,high);
+}}
+
+int main(){
+    int num;
+    cout<<"enter size of array";
+    cin>>num;
+    vector<int> arr(num);
+    for(int i=0;i<num;i++){
+       int n;
+       cin>>n;
+       arr[i]=n;
     }
-}
-int main()
-{
-    vector<int> arr = { 12, 11, 13, 5, 6, 7 };
-    int n = arr.size();
-
-    cout << "Given vector is \n";
-    printVector(arr);
-
-    mergeSort(arr, 0, n - 1);
-
-    cout << "\nSorted vector is \n";
-    printVector(arr);
-    return 0;}
+    mergesort(arr,0,arr.size()-1);
+    for(auto &x : arr){
+        cout<<x<<" ";
+    }    
+    }
