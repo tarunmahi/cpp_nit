@@ -1,31 +1,52 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int partion(vector<int> &arr,int low,int high){
-    int i=low+1;
-    int j=high;
-    int pivot=arr[low];
+int partiti(vector<int> &arr, int low,int high){
+    int i= low+1;
+    int j = high;
+    int pivot = arr[low];
     while(i<=j){
-        while(i<=j && arr[i]<=pivot)i++;
-        while(i<=j && arr[j]>=pivot)j--;
-        if(i<j)swap(arr[i],arr[j]);
+        if(i<=j && arr[i]<=pivot)i++;
+        if(i<=j && arr[j]>=pivot)j--;
+        if(i<j){
+            swap(arr[i],arr[j]);
+        }
     }
-    swap(arr[j],arr[low]);
+    swap(arr[low],arr[j]);
     return j;
-
 }
-void quicksort(vector<int> &obj,int low,int high){
+
+void   quickSort(vector<int> &arr,int low,int high){
     if(low<high){
-        int partition=partion(obj,low,high);
-        quicksort(obj,low,partition-1);
-        quicksort(obj,partition+1,high);
+int partition1 = partiti(arr,low,high);
+quickSort(arr,low,partition1-1);
+quickSort(arr,partition1+1,high);
+    }
+}
+void printVector(vector<int> &arr){
+    for(auto &x : arr){
+        cout<<x<<" ";
+    }
+}
+
+int main(){
+     
+    int n;
+    cout<<"enter size of array";
+    cin>>n;
+    vector<int> arr(n);
+    for(int i=0;i<n;i++){
+        int num=0;
+        cin>>num;
+        arr[i]=num;
     }
 
-}
-int main(){
-   vector<int> vec={3, 21, 11, 65, 43, 22, 10, 9, 7};
-   quicksort(vec,0,vec.size()-1);
-   for(auto x:vec){
-    cout<<x<<" ";
-   }
+    cout << "Given vector is \n";
+    printVector(arr);
+
+    quickSort(arr, 0, n - 1);
+
+    cout << "\nSorted vector is \n";
+    printVector(arr);
+    return 0;
 }
