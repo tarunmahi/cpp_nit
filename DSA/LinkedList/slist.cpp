@@ -189,10 +189,47 @@ bool detectcycle(){
     }
     fast->next=nullptr;
    }
-   void removeduplicates(){
-       Node*temp=head;
-       set<int> val;
-       
+    void remdup(){
+        Node*temp=head,*prev;
+        unordered_set<int> vec;
+        while(temp){
+        if(vec.find(temp->data)!=vec.end()){
+            prev->next=temp->next;
+            delete temp;
+            temp=prev->next;
+        }
+        else{
+            vec.insert(temp->data);
+            prev=temp;
+            temp=temp->next;
+        }}
+
+
+    }
+    bool isplaindrome(){
+        Node*slow=head,*fast=head,*curr,*prev=nullptr,*nxt;
+        while(fast&&fast->next){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        curr=slow;
+        while(curr){
+          nxt=curr->next;
+          curr->next=prev;
+          prev=curr;
+          curr=nxt;
+        }
+        Node*fhalf =head;
+        Node*shalf=prev;
+        while(shalf){
+            if(fhalf->data!=shalf->data)return false;
+            fhalf=fhalf->next;
+            shalf=shalf->next;
+            cout<<"hello";
+        }
+        return true;
+
+    }
 
 };
 int main(){
@@ -218,12 +255,13 @@ val->insertatend(87);
 // //cout<<val->detectcycle();
 // //val->reversee();
 // val->print();
-val->print();
-val->removeduplicates();
-cout<<endl;
-val->print();
 //has to do remove a cyle from linked list
-
+val->print();
+cout<<endl;
+val->remdup();
+val->print();
+cout<<endl;
+cout<<(val->isplaindrome()?"True":"false");
 delete val;
 
-}};
+};
