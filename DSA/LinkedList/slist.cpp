@@ -91,7 +91,8 @@ class LList{
     head=head->next;
     delete temp;
    }
-   void deleteffrome(){
+   void deleteffrome(){ // has to take care to get to predecessor of the last element
+   //not the actual last element(temp->next)
     Node* temp=head;
     if(!head){
       return;
