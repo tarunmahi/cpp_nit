@@ -1,4 +1,4 @@
-//usd to find in both negative and positive integers 
+//usd to find in both negative and positive integers for target=k
 //has a time complexity of O(n) and O(nlogn) depending on used hash structure
 #include <bits/stdc++.h> 
 using namespace std;
