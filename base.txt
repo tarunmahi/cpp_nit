@@ -587,3 +587,108 @@ Conclusion:
 This code implements the Diffie-Hellman Key Exchange with secure cryptographic standards using a large prime number and a secure random number generator. The shared secret derived from this exchange can be used for further encryption to secure communication.
 
 Let me know if you need further improvements or extensions (e.g., symmetric encryption using the shared secret)!
+
+
+Installation of PyCryptodome
+Make sure to install the PyCryptodome library first:
+
+bash
+Copy code
+pip install pycryptodome
+Digital Signature Code
+Here's a complete example demonstrating how to create and verify a digital signature in Python:
+
+python
+Copy code
+from Crypto.PublicKey import RSA
+from Crypto.Signature import pkcs1_15
+from Crypto.Hash import SHA256
+from Crypto.Random import get_random_bytes
+
+def generate_key_pair():
+    """Generate an RSA key pair."""
+    key = RSA.generate(2048)  # Generate a new RSA key pair
+    private_key = key.export_key()
+    public_key = key.publickey().export_key()
+    return private_key, public_key
+
+def sign_message(message, private_key):
+    """Sign a message using the private key."""
+    # Create a new SHA-256 hash of the message
+    message_hash = SHA256.new(message)
+    
+    # Load the private key
+    private_key = RSA.import_key(private_key)
+    
+    # Create the signature
+    signature = pkcs1_15.new(private_key).sign(message_hash)
+    return signature
+
+def verify_signature(message, signature, public_key):
+    """Verify the signature using the public key."""
+    # Create a new SHA-256 hash of the message
+    message_hash = SHA256.new(message)
+    
+    # Load the public key
+    public_key = RSA.import_key(public_key)
+    
+    try:
+        # Verify the signature
+        pkcs1_15.new(public_key).verify(message_hash, signature)
+        return True  # Signature is valid
+    except (ValueError, TypeError):
+        return False  # Signature is invalid
+
+# Example Usage
+if __name__ == "__main__":
+    # Generate keys
+    private_key, public_key = generate_key_pair()
+    
+    # Message to be signed
+    message = b"Hello, this is a secure message."
+    
+    # Sign the message
+    signature = sign_message(message, private_key)
+    
+    # Display the results
+    print(f"Message: {message.decode()}")
+    print(f"Signature: {signature.hex()}")
+    
+    # Verify the signature
+    is_valid = verify_signature(message, signature, public_key)
+    
+    if is_valid:
+        print("The signature is valid.")
+    else:
+        print("The signature is invalid.")
+Explanation of the Code:
+Key Pair Generation (generate_key_pair):
+
+Generates a new RSA key pair with a size of 2048 bits.
+The private key is used for signing, and the public key is used for verification.
+Signing a Message (sign_message):
+
+Takes a message and a private key as input.
+Computes the SHA-256 hash of the message.
+Signs the hash with the private key using PKCS#1 v1.5 signature scheme.
+Verifying the Signature (verify_signature):
+
+Takes the original message, signature, and public key as input.
+Computes the SHA-256 hash of the message.
+Verifies the signature against the computed hash using the public key.
+Output:
+When you run the above code, you will get an output similar to this:
+
+plaintext
+Copy code
+Message: Hello, this is a secure message.
+Signature: 1a94b441f51f7bd69f1506aef6ec8b72a421c4c2cd39a7d2204624e19425c7c3db82cf95c84c1d618d703f7a64eb...
+The signature is valid.
+Security Considerations:
+Key Size: The RSA key size should be at least 2048 bits for security against brute-force attacks.
+Hash Function: SHA-256 is widely used and secure for hashing messages.
+Signature Scheme: The PKCS#1 v1.5 scheme is commonly used but consider using more modern schemes like PSS for improved security.
+Conclusion:
+This code provides a robust implementation of digital signatures using RSA, ensuring message integrity and authenticity. It follows industry standards and best practices for cryptographic operations.
+
+Let me know if you have any questions or need further assistance!
